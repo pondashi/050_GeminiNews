@@ -7,7 +7,7 @@
 - プログラミング言語: Python 3.11以上
 - ニュース取得: feedparser (Google News RSS)
 - 株価取得: yfinance (Yahoo Finance API)
-- AIモデル: google-generativeai (gemini-1.5-pro)
+- AIモデル: google-generativeai (gemini-1.5-flash)
 - 通知送信: requests (DiscordまたはSlack互換Webhook)
 - CI/CD・実行環境: GitHub Actions
 - テストフレームワーク: pytest, pytest-mock, responses
