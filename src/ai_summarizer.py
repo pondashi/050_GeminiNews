@@ -41,7 +41,7 @@ def summarize_data(theme: str, news: list[dict], stocks: list[dict]) -> str:
 {stock_text if stocks else '株価データなし'}
 """
 
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-3.5-flash')
     response = model.generate_content(prompt)
     
     logger.info("Summary generated successfully.")
