@@ -1,0 +1,41 @@
+name: Daily Summary Bot
+
+on:
+  schedule:
+    # Run at 23:00 UTC (08:00 JST) every weekday (Monday to Friday)
+    - cron: '0 23 * * 1-5'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest tests/ -v
+
+    - name: Run main script
+      if: success()
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        TARGET_THEME: ${{ vars.TARGET_THEME || '半導体' }}
+        TARGET_TICKERS: ${{ vars.TARGET_TICKERS || 'NVDA,TSM,6920.T' }}
+      run: |
+        # Set PYTHONPATH to the current directory to correctly resolve imports
+        PYTHONPATH=$(pwd) python src/main.py
