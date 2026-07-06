@@ -7,7 +7,7 @@
 - プログラミング言語: Python 3.11以上
 - ニュース取得: feedparser (Google News RSS)
 - 株価取得: yfinance (Yahoo Finance API)
-- AIモデル: google-generativeai (gemini-3.5-flash)
+- AIモデル: google-genai (gemini-3.5-flash)
 - 通知送信: requests (DiscordまたはSlack互換Webhook)
 - CI/CD・実行環境: GitHub Actions
 - テストフレームワーク: pytest, pytest-mock, responses
@@ -59,7 +59,7 @@ project_root/
   - エラー時は例外をスローする。
 
 ### 4.4. 実行環境・自動化 (GitHub Actions: daily_summary.yml)
-- **トリガー**: `schedule` (cron) で平日日本時間の午前8時（UTC午後11時）に実行。
+- **トリガー**: `schedule` (cron) で毎日日本時間の午前7時（UTC午後10時）に実行。
 - **手順**: コードチェックアウト → Pythonセットアップ → 依存関係インストール → pytest実行 → `src/main.py`実行。
 
 ## 5. 環境変数・設定項目

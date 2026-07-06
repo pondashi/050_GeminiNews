@@ -1,13 +1,13 @@
-import google.generativeai as genai
+from google import genai
 from tenacity import retry, stop_after_attempt, wait_exponential
 import logging
 from . import config
 
 logger = logging.getLogger(__name__)
 
-# Configure Gemini
+client = None
 if config.GEMINI_API_KEY:
-    genai.configure(api_key=config.GEMINI_API_KEY)
+    client = genai.Client(api_key=config.GEMINI_API_KEY)
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 def summarize_data(theme: str, news: list[dict], stocks: list[dict]) -> str:
@@ -41,8 +41,13 @@ def summarize_data(theme: str, news: list[dict], stocks: list[dict]) -> str:
 {stock_text if stocks else '株価データなし'}
 """
 
-    model = genai.GenerativeModel('gemini-3.5-flash')
-    response = model.generate_content(prompt)
+    if not client:
+        raise ValueError("Gemini API key is missing. Client not initialized.")
+        
+    response = client.models.generate_content(
+        model='gemini-3.5-flash',
+        contents=prompt,
+    )
     
     logger.info("Summary generated successfully.")
     return response.text
