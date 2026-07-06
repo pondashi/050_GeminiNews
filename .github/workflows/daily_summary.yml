@@ -2,8 +2,8 @@ name: Daily Summary Bot
 
 on:
   schedule:
-    # Run at 23:00 UTC (08:00 JST) every weekday (Monday to Friday)
-    - cron: '0 23 * * 1-5'
+    # Run at 22:00 UTC (07:00 JST) every weekday (Monday to Friday)
+    - cron: '0 22 * * 1-5'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
